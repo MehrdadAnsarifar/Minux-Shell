@@ -2,10 +2,7 @@
 {
     internal class Program
     {
-        public static string[] ROOT_DIR = { "~/minux", "~/shell", "~/var" };
-        public static string[] ROOT_MINUX_DIR = { "~/minux/user", "~/minux/shelldata", "~/minux/bundles" };
-        public static string[] ROOT_SHELL_DIR = { "~/shell/current", "~/shell/current/minuxshell" };
-        public static string[] ROOT_VAR_DIR = { "~/var", "~/var/data", "~/var/info" };
+        public static string[] SYSTEM_DIRECTORIES = { "~/minux", "~/shell", "~/var" };
         public static string CURRENT_PATH;
 
         static void Main(string[] args)
@@ -28,7 +25,7 @@
             var input = Console.ReadLine();
             username = input.ToString();
             Console.Clear();
-            CURRENT_PATH = ROOT_DIR[0];
+            CURRENT_PATH = SYSTEM_DIRECTORIES[0];
             SHELL(username);
         }
         public static void SHELL(string user)
@@ -68,17 +65,65 @@ For better performance tap F11 to fullscreen terminal.
                     Console.Write("> ");
                     string echo_input = Console.ReadLine();
 
-                    Console.WriteLine(echo_input);
+                    if (echo_input == "path")
+                    {
+                        echo(CURRENT_PATH);
+                    }
+                    else if (echo_input == "sys")
+                    {
+                        echo("Minux-1.0");
+                    }
+                    else
+                    {
+                        echo(echo_input);
+                    }
+                }
+                else if (input == "cd")
+                {
+                    Console.Write("> ");
+                    string cd_input = Console.ReadLine();
+
+                    if (cd_input == SYSTEM_DIRECTORIES[0])
+                    {
+                        CURRENT_PATH = SYSTEM_DIRECTORIES[0];
+                    }
+                    else if (cd_input == SYSTEM_DIRECTORIES[1])
+                    {
+                        CURRENT_PATH = SYSTEM_DIRECTORIES[1];
+                    }
+                    else if (cd_input == SYSTEM_DIRECTORIES[2])
+                    {
+                        CURRENT_PATH = SYSTEM_DIRECTORIES[2];
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        echo("Path: " + cd_input + " not found at system.\n");
+                    }
+
+                }
+                else if (input == "list")
+                {
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    Console.Write(SYSTEM_DIRECTORIES[0] + "   ");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(SYSTEM_DIRECTORIES[1] + "   ");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write(SYSTEM_DIRECTORIES[2] + "\n\n");
                 }
 
                 // Command is incorrect
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(input + ": not recognized. use [help] for commands.");
+                    Console.WriteLine(input + ": not recognized. use [help] for commands.\n");
                     Console.ForegroundColor = ConsoleColor.Gray;
                 }
             }
+        }
+        public static void echo(string msg)
+        {
+            Console.WriteLine(msg);
         }
     }
 }
