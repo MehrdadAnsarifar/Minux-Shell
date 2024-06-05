@@ -121,6 +121,7 @@ For better performance tap F11 to fullscreen terminal.
                 }
             }
         }
+
         public static void echo(string msg)
         {
             Console.WriteLine(msg);
